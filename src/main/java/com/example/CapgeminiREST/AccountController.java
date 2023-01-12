@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.CapgeminiREST.error.ResourceNotFoundException;
 import com.example.CapgeminiREST.model.Account;
 import com.example.CapgeminiREST.model.Customer;
 import com.example.CapgeminiREST.model.Transaction;
@@ -29,12 +30,12 @@ public class AccountController {
 	private static final Logger LOG = LoggerFactory.getLogger(AccountController.class);
 	
 	@GetMapping("customers/{id}")
-	public Customer getUserInfo(@PathVariable("id") Long id) throws Exception {
+	public Customer getUserInfo(@PathVariable("id") Long id) throws ResourceNotFoundException {
 		return accountService.getUserInfo(id);
 	}
 	
 	@PostMapping("customers/{id}/accounts")
-	public Account createAccount(@PathVariable("id") Long id, @RequestBody Transaction transaction) throws Exception {
+	public Account createAccount(@PathVariable("id") Long id, @RequestBody Transaction transaction) throws ResourceNotFoundException {
 		Account newAccount = accountService.openAccount(id);
 		LOG.info("init credit: " + transaction.getInitialCredit() + " " );
 		if (!transaction.getInitialCredit().equals(BigDecimal.ZERO)) {
