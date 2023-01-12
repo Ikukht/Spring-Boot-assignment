@@ -24,13 +24,13 @@ public class LoadDatabase {
   public CommandLineRunner initDatabase(TransactionRepository trasactionRep,
 		  AccountRepository accountRep, CustomerRepository customerRep) {
     return args -> {
-    	Customer customer = new Customer("John", "Wick");
-    	customerRep.save(customer);
+		Customer customer = new Customer("John", "Wick");
+		customerRep.save(customer);
 		log.info("Preloading " + customer);
-
-    	Account account = new Account();
-    	account.setCustomer(customer);
-    	accountRep.save(account);
+		
+		Account account = new Account();
+		account.setCustomer(customer);
+		accountRep.save(account);
 		log.info("Preloading " + account);
 		
 		Transaction trasaction1 = new Transaction(new BigDecimal(12.11));
