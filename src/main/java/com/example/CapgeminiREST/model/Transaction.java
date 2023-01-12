@@ -58,6 +58,6 @@ public class Transaction {
 	
 	@Override
 	public String toString() {
-	    return "{id=" + this.id + ", initialCredit=" + this.initialCredit + ", account_id=" + account.getId() + "}";
+	    return "Transaction {id=" + this.id + ", initialCredit=" + this.initialCredit + ", account_id=" + account.getId() + "}";
 	}
 }

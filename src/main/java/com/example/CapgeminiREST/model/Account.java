@@ -78,6 +78,6 @@ public class Account {
 	
 	@Override
 	public String toString() {
-	    return "{id=" + this.id + ", balance=" + this.balance + ", customer_id=" + customer.getId() + "}";
+	    return "Account {id=" + this.id + ", balance=" + this.balance + ", customer_id=" + customer.getId() + "}";
 	}
 }
