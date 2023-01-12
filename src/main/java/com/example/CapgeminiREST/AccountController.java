@@ -26,7 +26,7 @@ public class AccountController {
 	@Autowired
 	TransactionService transactionService;
 	
-	private static final Logger LOG = LoggerFactory.getLogger(CapgeminiRestApplication.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AccountController.class);
 	
 	@GetMapping("customers/{id}")
 	public Customer getUserInfo(@PathVariable("id") Long id) throws Exception {
