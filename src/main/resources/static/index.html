@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <script>
+    function getClientInfo(customerId) {
+      if (customerId == "") {
+        alert("Empty input");
+        return;
+      }
+      // Reset values
+      document.getElementById("customerIdInfo").value = "";
+      document.getElementById("customerInfo").innerHTML = "";
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("GET", "/customers/" + customerId, false);
+      xhttp.setRequestHeader("Content-type", "application/json");
+      xhttp.send(null);
+      if (xhttp.status === 200) {
+        var userInfo = JSON.parse(xhttp.response);
+        document.getElementById("customerInfo").appendChild(buildUserTable(userInfo));
+      } else {
+        var json = JSON.parse(xhttp.response);
+        alert(json.message);
+      }
+    }
+
+    function buildUserTable(user) {
+      var table = document.createElement("table");
+      table.style.width = "100%";
+      table.style.marginTop = "50px";
+      table.style.textAlign = "center";
+      var tr = document.createElement("tr");
+      var th = document.createElement("th");
+      th.innerHTML = "Id";
+      tr.appendChild(th);
+      th = document.createElement("th");
+      th.innerHTML = "Name";
+      tr.appendChild(th);
+      th = document.createElement("th");
+      th.innerHTML = "Surname";
+      tr.appendChild(th);
+      th = document.createElement("th");
+      th.innerHTML = "Accounts";
+      tr.appendChild(th);
+      table.appendChild(tr);
+      tr = document.createElement("tr");
+      var td = document.createElement("td");
+      td.innerHTML = user.id;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerHTML = user.name;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerHTML = user.surname;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.appendChild(buildAccountTable(user.accounts));
+      tr.appendChild(td);
+      table.appendChild(tr);
+      return table;
+    }
+
+    function buildAccountTable(accounts) {
+      var table = document.createElement("table");
+      table.style.width = "100%";
+      var tr = document.createElement("tr");
+      var th = document.createElement("th");
+      th.innerHTML = "Id";
+      tr.appendChild(th);
+      th = document.createElement("th");
+      th.innerHTML = "Balance";
+      tr.appendChild(th);
+      th = document.createElement("th");
+      th.innerHTML = "Transactions";
+      tr.appendChild(th);
+      table.appendChild(tr);
+      for (let i = 0; i < accounts.length; i++) {
+        tr = document.createElement("tr");
+        td = document.createElement("td");
+        td.innerHTML = accounts[i].id;
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.innerHTML = accounts[i].balance;
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.appendChild(buildTransactionTable(accounts[i].transactions));
+        tr.appendChild(td);
+        table.appendChild(tr);
+      }
+      return table;
+    }
+
+    function buildTransactionTable(transactions) {
+      var table = document.createElement("table");
+      table.style.width = "100%";
+      var tr = document.createElement("tr");
+      var th = document.createElement("th");
+      th.innerHTML = "Id";
+      tr.appendChild(th);
+      th = document.createElement("th");
+      th.innerHTML = "Initial Credit";
+      tr.appendChild(th);
+      table.appendChild(tr);
+      for (let i = 0; i < transactions.length; i++) {
+        tr = document.createElement("tr");
+        var td = document.createElement("td");
+        td.innerHTML = transactions[i].id;
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.innerHTML = transactions[i].initialCredit;
+        tr.appendChild(td);
+        table.appendChild(tr);
+      }
+      return table;
+    }
+
+    function openAccount(customerId, initialCredit) {
+      if (customerId == "" || initialCredit == "") {
+        alert("Empty inputs");
+        return;
+      }
+      var params = {
+        "initialCredit": initialCredit
+      };
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("POST", "/customers/" + customerId + "/accounts", false);
+      xhttp.setRequestHeader("Content-type", "application/json");
+      xhttp.send(JSON.stringify(params));
+      if (xhttp.status === 200) {
+        var json = JSON.parse(xhttp.response);
+        alert("Account successfully opened for customer " + json.id + " with initial credit " + (json.transactions.length === 0 ? "0" : json.transactions[0].initialCredit));
+      } else {
+        alert(JSON.parse(xhttp.response).message);
+      }
+      document.getElementById("customerIdOpenAccount").value = "";
+      document.getElementById("initialBalance").value = "";
+    }
+  </script>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Demo</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <base href="/" />
+  </head>
+  <body>
+    <header>
+      <h1>Demo</h1>
+    </header>
+    <main>
+      <div class="container">
+        <div>Customer info</div><input type="number" id="customerIdInfo" name="customerID" placeholder="Enter customer id" min="0" required><button type="submit" onclick='getClientInfo(document.getElementById("customerIdInfo").value)'>Get customer info</button>
+      </div>
+      <div class="container">
+        <div>Open account</div><input type="number" id="customerIdOpenAccount" name="customerID" placeholder="Enter customer id" min="0" required><input type="number" id="initialBalance" name="initialBalance" placeholder="Enter initial balance" required><button type="submit" onclick='openAccount(document.getElementById("customerIdOpenAccount").value, document.getElementById("initialBalance").value)'>Open account</button>
+      </div>
+      <div id="customerInfo"></div>
+    </main>
+  </body>
+</html>
