@@ -24,10 +24,8 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Account openAccount(Long customerId) throws ResourceNotFoundException {
 		Customer customer = customerRep.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Could not find customer id: " + customerId));
-    	Account account = new Account();
-    	account.setCustomer(customer);
-    	accountRep.save(account);
-    	
+		Account account = new Account();
+		account.setCustomer(customer);
 		return accountRep.save(account);
 	}
 }

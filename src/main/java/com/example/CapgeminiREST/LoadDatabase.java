@@ -33,7 +33,7 @@ public class LoadDatabase {
 		accountRep.save(account);
 		log.info("Preloading " + account);
 		
-		Transaction trasaction1 = new Transaction(new BigDecimal(12.11));
+		Transaction trasaction1 = new Transaction(new BigDecimal("12.11"));
 		trasaction1.setAccount(account);
 		trasactionRep.save(trasaction1);
 		log.info("Preloading " + trasaction1);
