@@ -1,36 +1,36 @@
 package com.example.CapgeminiREST.error;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class ErrorDetails {
-    private Date timestamp;
-    private String error;
+    private LocalDateTime time;
+    private String errorCode;
     private String message;
     
     public ErrorDetails() {
     	
     }
     
-    public ErrorDetails(Date timestamp, String error, String message) {
-    	this.timestamp = timestamp;
-    	this.error = error;
+    public ErrorDetails(LocalDateTime time, String errorCode, String message) {
+    	this.time = time;
+    	this.errorCode = errorCode;
     	this.message = message;
     }
     
-    public void setTimestamp(Date timestamp) {
-    	this.timestamp = timestamp;
+    public void setTime(LocalDateTime time) {
+    	this.time = time;
     }
     
-    public Date getTimestamp() {
-    	return timestamp;
+    public LocalDateTime getTime() {
+    	return time;
     }
     
-    public void setError(String error) {
-    	this.error = error;
+    public void setErrorCode(String errorCode) {
+    	this.errorCode = errorCode;
     }
     
-    public String getError() {
-    	return error;
+    public String getErrorCode() {
+    	return errorCode;
     }
     
     public void setMessage(String message) {

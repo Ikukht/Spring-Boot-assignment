@@ -1,6 +1,6 @@
 package com.example.CapgeminiREST.error;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,11 @@ public class CustomExceptionHandler {
 	
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> dataNotFoundExceptionHandling(ResourceNotFoundException exception, WebRequest request) {
-        return new ResponseEntity<>(new ErrorDetails(new Date(), "Not found error", exception.getMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ErrorDetails(LocalDateTime.now(), ErrorCode.RESOURCE_NOT_FOUND, "Could not locate the resource"), HttpStatus.NOT_FOUND);
     }
     
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> unexpectedExceptionHandling(Exception exception, WebRequest request) {
+        return new ResponseEntity<>(new ErrorDetails(LocalDateTime.now(), ErrorCode.UNEXPECTED_ERROR, "Something unexpected happened"), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
