@@ -2,6 +2,7 @@ package com.example.CapgeminiREST;
 
 import java.math.BigDecimal;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -16,9 +17,9 @@ import com.example.CapgeminiREST.repository.CustomerRepository;
 import com.example.CapgeminiREST.repository.TransactionRepository;
 
 @Configuration
-public class LoadDatabase {
+public class AppConfiguration {
 
-  private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
+  private static final Logger log = LoggerFactory.getLogger(AppConfiguration.class);
 
   @Bean
   public CommandLineRunner initDatabase(TransactionRepository trasactionRep,
@@ -38,5 +39,10 @@ public class LoadDatabase {
 		trasactionRep.save(trasaction1);
 		log.info("Preloading " + trasaction1);
     };
+  }
+  
+  @Bean
+  public ModelMapper modelMapper() {
+	return new ModelMapper();
   }
 }

@@ -1,10 +1,10 @@
 package com.example.CapgeminiREST.service;
 
+import com.example.CapgeminiREST.dto.TransactionDTO;
 import com.example.CapgeminiREST.error.ResourceNotFoundException;
-import com.example.CapgeminiREST.model.Transaction;
 
 public interface TransactionService {
 	
-	public Transaction createTransaction(Long accountId, Transaction transaction) throws ResourceNotFoundException;
+	public TransactionDTO createTransaction(Long accountId, TransactionDTO transaction) throws ResourceNotFoundException;
 	
 }
